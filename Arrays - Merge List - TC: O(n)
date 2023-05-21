@@ -1,0 +1,81 @@
+import java.util.*;
+public class Solution{
+  public  void mergeList(ArrayList<Interval> intervals, Interval newInterval)
+    {
+        ArrayList<Interval> mergedIntervals = new ArrayList<>();
+
+        int startIndex = newInterval.start;
+        int endIndex = newInterval.end;
+        int length = intervals.size();
+
+        for ( int i = 0; i < length; i++ )
+        {
+            // If the new Interval (non intersecting) appears before current array
+            if (newInterval.end < intervals.get(i).start)
+            {
+                mergedIntervals.add(newInterval);
+                newInterval = intervals.get(i); // Jump to Line No: 36
+            }
+
+            // If the newInterval (non intersecting) appears after current array
+            else if (newInterval.start > intervals.get(i).end)
+            {
+                mergedIntervals.add(intervals.get(i)); // Jump to Line No: 36
+            }
+
+            // If the newInterval(intersecting/overlap) appears.then:
+            // 1. Take min(newInterval start, current start).
+            // 2. Take max(newInterval end, current end).
+            else
+            {
+                newInterval.start = Math.min(newInterval.start, intervals.get(i).start);
+                newInterval.end = Math.max(newInterval.end, intervals.get(i).end);
+            }
+        }
+        mergedIntervals.add(newInterval);
+
+        // Printing the new List
+        for ( int i = 0 ; i<mergedIntervals.size() ; i++ )
+        {
+            System.out.print("[" + mergedIntervals.get(i).start +
+                             "," + mergedIntervals.get(i).end + "]" );
+        }
+    }
+}
+
+//*********************
+// Interval Class 
+//*********************
+public class Interval
+{
+        int start;
+        int end;
+        Interval()
+        {
+            start = 0;
+            end = 0;
+        }
+        Interval(int s, int e)
+        {
+            start = s;
+            end = e;
+        }
+}
+
+//*********************
+// Main Class
+//*********************
+import java.util.ArrayList;
+public class Main
+{
+    public static void main(String[] args)
+    {
+        ArrayList<Interval> arr = new ArrayList<>();
+        arr.add(new Interval(1,3));
+        arr.add(new Interval(6, 9));
+        Solution sol = new Solution();
+        sol.mergeList(arr, new Interval(2,5));
+    }
+}
+
+
