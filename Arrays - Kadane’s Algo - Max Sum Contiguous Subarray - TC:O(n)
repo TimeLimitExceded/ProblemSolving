@@ -1,0 +1,73 @@
+
+// *************************************
+// Using Kadane’s Algorithm - TC: O(n) *
+// *************************************
+import java.util.*;
+public class Solution {
+    public int maxSubArray( int[] A )
+    {
+        int maxSum = Integer.MIN_VALUE;
+        int curSum = 0;
+
+        for ( int i = 0 ; i < A.length ; i++ )
+        {
+            curSum = curSum + A[i];
+            maxSum = Math.max( maxSum, curSum );
+            // Ignore the CurSum. If you carry it,
+            // your next Sum's value is going to reduce.
+            if ( curSum < 0 )
+            {
+                curSum = 0;
+            }
+        }
+        return maxSum;
+    }
+}
+
+/*
+// ******************
+// O(n^2) Approach **
+// ******************
+public class Solution {
+    public int maxSubArray( int[] A )
+    {
+        int maxSum = Integer.MIN_VALUE;
+        for ( int i = 0; i < A.length; i++ )
+        {
+            int curSum = 0;
+            for (int j = i; j < A.length; j++)
+            {
+                curSum = curSum + A[j];
+                maxSum = Math.max(maxSum, curSum);
+            }
+        }
+        return maxSum;
+    }
+}
+*/
+
+// *************
+// Main Class **
+// *************
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        int arr[] = new int[4];
+        arr[0] = 2;
+        arr[1] = 3;
+        arr[2] = 4;
+        arr[3] = -10;
+
+        Solution sol = new Solution();
+        int maxSum  = sol.maxSubArray(arr);
+        System.out.print(maxSum);
+
+    }
+}
+
+
+
+
+
