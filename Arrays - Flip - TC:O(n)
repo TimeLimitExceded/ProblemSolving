@@ -1,0 +1,86 @@
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> getFlip( String A )
+    {
+        int maxSum = Integer.MIN_VALUE;
+        int curSum = 0;
+        int start = 0;
+        int startIndex = 0;
+        int endIndex = -1;
+        ArrayList<Integer> ansList = new ArrayList<>();
+
+        for ( int i = 0 ; i < A.length() ; i++ )
+        {
+            if ( A.charAt(i) == '1' )
+            {
+                ansList.add(-1);
+            }
+            if ( A.charAt(i) == '0' )
+            {
+                ansList.add(1);
+            }
+        }
+
+        for ( int i = 0 ; i < ansList.size() ; i++ )
+        {
+         curSum = curSum + ansList.get(i);
+         if ( curSum > maxSum )
+           {
+             maxSum = curSum;
+             startIndex = start;
+             endIndex = i;
+           }
+
+         // *** Kadane's Algorithm + Some tweak ***
+         // 1. Ignore the CurSum. If you carry it,
+         //    your next Sum's value is going to reduce.
+         // 2. If the curSum is negative, then the new sub-array
+         //    will obviously start from next index.
+         if ( curSum < 0 )
+            {
+                curSum = 0;
+                start = i+1;
+             }
+        }
+
+        ansList.clear();
+        // If no valid flip operation, you need to return empty ArrayList or else
+        // perform following steps:
+        if ( endIndex != -1 )
+        {
+            ansList.add(startIndex+1);
+            ansList.add(endIndex+1);
+            return ansList;
+        }
+    return ansList;
+    }
+}
+
+// *****************
+// Main Class ******
+// *****************
+
+import java.util.ArrayList;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        String inputString = "11";
+        Solution sol = new Solution();
+        ArrayList<Integer> output  = sol.getFlip(inputString);
+        if ( output.get(0) == output.get(1) )
+        {
+            System.out.println("No Valid Flip Operations performed");
+        }
+        else {
+            System.out.println("Sub-arrays Start Index: " + output.get(0));
+            System.out.println("Sub-arrays End Index: " + output.get(1));
+        }
+    }
+}
+
+
+
+
+
