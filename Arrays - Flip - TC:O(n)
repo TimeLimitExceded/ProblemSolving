@@ -7,8 +7,10 @@ public class Solution {
         int start = 0;
         int startIndex = 0;
         int endIndex = -1;
+        boolean flag = false;
         ArrayList<Integer> ansList = new ArrayList<>();
 
+        // Represent '0' as 1 and 1 as '-1', because we need to find the maximum '1's in the array.
         for ( int i = 0 ; i < A.length() ; i++ )
         {
             if ( A.charAt(i) == '1' )
@@ -17,8 +19,13 @@ public class Solution {
             }
             if ( A.charAt(i) == '0' )
             {
+                flag = true;
                 ansList.add(1);
             }
+        }
+        if ( flag == false )
+        {
+            return new ArrayList<Integer>();
         }
 
         for ( int i = 0 ; i < ansList.size() ; i++ )
@@ -44,8 +51,10 @@ public class Solution {
         }
 
         ansList.clear();
-        // If no valid flip operation, you need to return empty ArrayList or else
-        // perform following steps:
+
+        // By checking end != -1, the code ensures that
+        // only when a valid flip operation is found, the start and end indices are added to
+        // the list array and returned. Otherwise, an empty array is returned.
         if ( endIndex != -1 )
         {
             ansList.add(startIndex+1);
@@ -56,20 +65,19 @@ public class Solution {
     }
 }
 
+
 // *****************
 // Main Class ******
 // *****************
-
-import java.util.ArrayList;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        String inputString = "11";
+        String inputString = "100011";
         Solution sol = new Solution();
         ArrayList<Integer> output  = sol.getFlip(inputString);
-        if ( output.get(0) == output.get(1) )
+        if ( output.isEmpty()  )
         {
             System.out.println("No Valid Flip Operations performed");
         }
