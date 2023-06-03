@@ -1,0 +1,75 @@
+import java.util.*;
+public class Solution {
+    public int minSwap(int[] A, int B)
+    {
+        int n = A.length;
+        int windowSize = 0;
+        // Find the window size --> check numbers in array that are smaller than B
+        for( int i = 0; i < n; i++ )
+        {
+            if( A[i] <= B )
+            {
+                windowSize++;
+            }
+        }
+
+        // Find the minimum swap count from first window
+        int start = 0;
+        int end = windowSize - 1;
+        int minSwap = Integer.MAX_VALUE;
+        int badElements = 0;
+        for( int i = start; i <= end; i++ )
+        {
+            if( A[i] > B )
+            {
+                badElements++;
+            }
+        }
+
+        // Find minimum swaps required in each window
+        minSwap = badElements;
+        start = 1;
+        end = windowSize;
+        // Element to be excluded if its already considered(Larger than B) , then --
+        // Element to be included is larger than B, then ++
+        while(end < n)
+        {
+            if(A[start-1] > B)
+            {
+                badElements--;
+            }
+            if(A[end] > B)
+            {
+                badElements++;
+            }
+            minSwap = Math.min(badElements, minSwap);
+            start++;
+            end++;
+        }
+        return minSwap;
+    }
+}
+
+// **************
+// Main Class ***
+// **************
+
+import java.util.ArrayList;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+     int A[] = new int[7];
+     A[0] = 2;
+     A[1] = 11;
+     A[2] = 10;
+     A[3] = 1;
+     A[4] = 16;
+     A[5] = 3;
+     A[6] = 4;
+    Solution sol = new Solution();
+    int ans = sol.minSwap(A, 9 );
+    System.out.println("Min Swaps Required: "+ans);
+    }
+}
