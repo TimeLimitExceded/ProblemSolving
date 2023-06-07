@@ -1,0 +1,56 @@
+import java.util.*;
+public class Solution {
+    public int maximumDistance( int[] A )
+    {
+        int n = A.length;
+        int max = Integer.MIN_VALUE;
+
+        // Create a 2D array to maintain the array elements and its indices
+        int[][] A_val_indx = new int[n][2];
+        for(int i = 0 ; i < n ; i++)
+        {
+            A_val_indx[i][0] = A[i];
+            A_val_indx[i][1] = i;
+        }
+
+        // Sort the 2D array using based on first elements (not the indexes)
+        // By (a, b) -> a[0] - b[0] = you’re telling the .sort() function
+        // to sort the no's in ascending order.
+        Arrays.sort(A_val_indx , (a, b) -> a[0] - b[0] );
+
+        // 1. After sorting the maximum element will be in the last of 2D Array
+        // 2. We will traverse from last and track the index of maximum elements
+        // 3. We will be subtracting it from the current lesser elements index and return
+        //    the maximum value.
+
+        int maxIndex = Integer.MIN_VALUE;
+        int maxDistance = 0;
+
+        for(int i = n-1 ; i >=0 ; i--)
+        {
+            int curIndex = A_val_indx[i][1];
+            maxIndex = Math.max(curIndex, maxIndex);
+            maxDistance = Math.max(maxDistance, maxIndex - curIndex);
+        }
+        return maxDistance;
+    }
+}
+// ******************
+// Main Class *******
+// ******************
+import java.util.ArrayList;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+     int A[] = new int[4];
+     A[0] = 3;
+     A[1] = 5;
+     A[2] = 4;
+     A[3] = 2;
+    Solution sol = new Solution();
+    int ans = sol.maximumDistance(A);
+    System.out.println("Max Distance: "+ans);
+    }
+}
